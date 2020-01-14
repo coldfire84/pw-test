@@ -4,8 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-
-	"github.com/iegomez/mosquitto-go-auth/common"
 )
 
 func main() {
@@ -15,7 +13,7 @@ func main() {
 
 	flag.Parse()
 
-	if common.HashCompare(*password, *hashed) {
+	if HashCompare(*password, *hashed) {
 		fmt.Println("success: plain and hashed passwords match")
 		return
 	}
