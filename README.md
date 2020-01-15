@@ -24,4 +24,6 @@ Usage of ./pw-test:
     	pbkdf2 password hash. use single quotes so $ symbols aren't taken as variables
   -p string
     	plain text password
+  -s staring
+      salt encoding, defaults to 'base64'
 ```

@@ -12,6 +12,7 @@ import (
 	"log"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/pbkdf2"
+	iconv "github.com/djimenez/iconv-go"
 )
 
 /*
@@ -68,16 +69,21 @@ func hashWithSalt(password string, salt []byte, iterations int, algorithm string
 // HashCompare verifies that passed password hashes to the same value as the
 // passed passwordHash.
 // Taken from brocaar's lora-app-server: https://github.com/brocaar/lora-app-server
-func HashCompare(password string, passwordHash string) bool {
+func HashCompare(password string, passwordHash string, saltEncoding string) bool {
 	log.Println(passwordHash)
 	// SPlit the hash string into its parts.
 	hashSplit := strings.Split(passwordHash, "$")
-
-	// Get the iterations and the salt and use them to encode the password
-	// being compared.cre
+	// Get the iterations from PBKDF2 string
 	iterations, _ := strconv.Atoi(hashSplit[2])
-	salt, _ := base64.StdEncoding.DecodeString(hashSplit[3])
+	// Encode salt, using encoding supplied in saltEncoding param
+	if saltEncoding == "utf-8" {
+		salt, _ := iconv.ConvertString(hashSplit[3], "base64", "utf-8")
+	} else {
+		salt, _ := base64.StdEncoding.DecodeString(hashSplit[3])
+	}
+	// Get the algorithm from PBKDF2 string
 	algorithm := hashSplit[1]
+	// Generate new PBKDF2 hash to compare supplied PBKDF2 string against
 	newHash := hashWithSalt(password, salt, iterations, algorithm)
 	return newHash == passwordHash
 }
