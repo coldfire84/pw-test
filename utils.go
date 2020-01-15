@@ -59,7 +59,7 @@ func hashWithSalt(password string, salt []byte, iterations int, algorithm string
 	buffer.WriteString(strconv.Itoa(iterations))
 	buffer.WriteString("$")
 	if saltEncoding == "utf-8" {
-		buffer.WriteString(string([]byte{salt}))
+		buffer.WriteString(string(salt))
 
 	} else {
 		buffer.WriteString(base64.StdEncoding.EncodeToString(salt))
