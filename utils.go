@@ -76,6 +76,7 @@ func HashCompare(password string, passwordHash string, saltEncoding string) bool
 	// Get the iterations from PBKDF2 string
 	iterations, _ := strconv.Atoi(hashSplit[2])
 	// Encode salt, using encoding supplied in saltEncoding param
+	var salt []byte
 	if saltEncoding == "utf-8" {
 		salt, _ := iconv.ConvertString(hashSplit[3], "base64", "utf-8")
 	} else {
