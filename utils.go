@@ -86,6 +86,7 @@ func HashCompare(password string, passwordHash string, saltEncoding string) bool
 	} else {
 		salt, _ = base64.StdEncoding.DecodeString(hashSplit[3])
 	}
+	log.Println("Salt: ", salt)
 	// Get the algorithm from PBKDF2 string
 	algorithm := hashSplit[1]
 	// Generate new PBKDF2 hash to compare supplied PBKDF2 string against
