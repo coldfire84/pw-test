@@ -77,7 +77,7 @@ func HashCompare(password string, passwordHash string, saltEncoding string) bool
 	// Encode salt, using encoding supplied in saltEncoding param
 	salt := []byte{}
 	if saltEncoding == "utf-8" {
-		salt, _ = []byte(hashSplit[3])
+		salt = []byte(hashSplit[3])
 	} else {
 		salt, _ = base64.StdEncoding.DecodeString(hashSplit[3])
 	}
