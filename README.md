@@ -11,7 +11,7 @@ Build the pw-test utility:
 ```
 mkdir ~/pw
 cd ~/pw
-git clone https://github.com/iegomez/pw-test.git .
+git clone --branch pr-saltEncoding https://github.com/coldfire84/pw-test.git .
 go build
 ```
 Once completed you should find a `pw-test` binary.
@@ -24,6 +24,6 @@ Usage of ./pw-test:
     	pbkdf2 password hash. use single quotes so $ symbols aren't taken as variables
   -p string
     	plain text password
-  -s staring
+  -s string
       salt encoding, defaults to 'base64'
 ```

@@ -78,9 +78,9 @@ func HashCompare(password string, passwordHash string, saltEncoding string) bool
 	// Encode salt, using encoding supplied in saltEncoding param
 	salt := []byte{}
 	if saltEncoding == "utf-8" {
-		salt, _ := iconv.ConvertString(hashSplit[3], "utf-8", "byte")
+		salt, _ = iconv.ConvertString(hashSplit[3], "utf-8", "byte")
 	} else {
-		salt, _ := base64.StdEncoding.DecodeString(hashSplit[3])
+		salt, _ = base64.StdEncoding.DecodeString(hashSplit[3])
 	}
 	// Get the algorithm from PBKDF2 string
 	algorithm := hashSplit[1]
