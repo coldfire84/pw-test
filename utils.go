@@ -35,7 +35,7 @@ func Hash(password string, saltSize int, iterations int, algorithm string) (stri
 }
 
 // Taken from brocaar's lora-app-server: https://github.com/brocaar/lora-app-server
-func hashWithSalt(password string, salt []byte, iterations int, algorithm string) string {
+func hashWithSalt(password string, salt []byte, iterations int, algorithm string, saltEncoding string) string {
 	// Generate the hash.  This should be a little painful, adjust ITERATIONS
 	// if it needs performance tweeking.  Greatly depends on the hardware.
 	// NOTE: We store these details with the returned hash, so changes will not
@@ -58,7 +58,12 @@ func hashWithSalt(password string, salt []byte, iterations int, algorithm string
 	buffer.WriteString(fmt.Sprintf("%s$", algorithm))
 	buffer.WriteString(strconv.Itoa(iterations))
 	buffer.WriteString("$")
-	buffer.WriteString(base64.StdEncoding.EncodeToString(salt))
+	if saltEncoding == "utf-8" {
+		buffer.WriteString(string([]byte{salt}))
+
+	} else {
+		buffer.WriteString(base64.StdEncoding.EncodeToString(salt))
+	}
 	buffer.WriteString("$")
 	buffer.WriteString(base64.StdEncoding.EncodeToString(hash))
 	log.Println(buffer.String())
@@ -84,6 +89,6 @@ func HashCompare(password string, passwordHash string, saltEncoding string) bool
 	// Get the algorithm from PBKDF2 string
 	algorithm := hashSplit[1]
 	// Generate new PBKDF2 hash to compare supplied PBKDF2 string against
-	newHash := hashWithSalt(password, salt, iterations, algorithm)
+	newHash := hashWithSalt(password, salt, iterations, algorithm, saltEncoding)
 	return newHash == passwordHash
 }
