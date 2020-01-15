@@ -23,7 +23,7 @@ import (
 // making it easy to recreate the hash for password checking, even if we change
 // the default criteria here.
 // Taken from brocaar's lora-app-server: https://github.com/brocaar/lora-app-server
-func Hash(password string, saltSize int, iterations int, algorithm string) (string, error) {
+func Hash(password string, saltSize int, iterations int, algorithm string, saltEncoding string) (string, error) {
 	// Generate a random salt value, 128 bits.
 	salt := make([]byte, saltSize)
 	_, err := rand.Read(salt)
@@ -31,7 +31,7 @@ func Hash(password string, saltSize int, iterations int, algorithm string) (stri
 		return "", errors.Wrap(err, "read random bytes error")
 	}
 
-	return hashWithSalt(password, salt, iterations, algorithm), nil
+	return hashWithSalt(password, salt, iterations, algorithm, saltEncoding), nil
 }
 
 // Taken from brocaar's lora-app-server: https://github.com/brocaar/lora-app-server
