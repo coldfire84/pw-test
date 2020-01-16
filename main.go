@@ -2,8 +2,8 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
@@ -15,9 +15,9 @@ func main() {
 	flag.Parse()
 
 	if HashCompare(*password, *hashed, *saltEncoding) {
-		fmt.Println("success: plain and hashed passwords match")
+		log.Println("Success: plain and hashed passwords match!")
 		return
 	}
-	fmt.Println("error: plain and hashed passwords don't match")
+	log.Println("Error: plain and hashed passwords don't match")
 	os.Exit(1)
 }
